@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Automation</title>
+
+<!-- SPLINE VIEWER -->
+<script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.78/build/spline-viewer.js"></script>
+
+<!-- MILEAST FONT -->
+<link href="https://fonts.cdnfonts.com/css/mileast" rel="stylesheet">
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Mileast', sans-serif; }
+body{ background: radial-gradient(circle at center, #111 0%, #050505 100%); color:white; overflow-x:hidden; position:relative; }
+
+/* NAVBAR */
+.navbar{ display:flex; justify-content:space-between; align-items:center; padding:25px 60px; }
+.logo img {
+  width: 80px;       /* adjust kar sakte ho */
+  height: 60px;       /* oval banane ke liye width se choti height */
+  object-fit: cover;  /* image stretch na ho */
+  border-radius: 50%; /* oval / ellipse effect */
+  
+  filter: grayscale(100%);
+  transition: all 0.4s ease;
+}
+
+.logo img:hover {
+  filter: grayscale(0%);
+  transform: scale(1.05);
+}
+.navbar ul{ display:flex; gap:30px; list-style:none; color:#fff; cursor:pointer; }
+.navbar ul li:hover{ color:#fca311; transition:0.6s; }
+.btn{ background:white; color:black; padding:10px 20px; border-radius:20px; border:none; cursor:pointer; transition:0.3s; }
+.btn:hover{ background:#fca311; color:black; }
+
+/* HERO SECTION */
+.hero{
+  display:grid;
+  grid-template-columns:1fr 1.6fr 1fr; /* model slightly right */
+  align-items:flex-start;
+  height:90vh;
+  padding:60px 60px 0 60px;
+  position:relative;
+}
+.hero-text h1{ font-size:60px; margin:120px 0; font-weight:900; white-space: nowrap; border-right: .15em solid orange; overflow: hidden; }
+.hero-text h3{ color:#aaa; margin-bottom:-120px; }
+.hero-text p{ color:#777; margin-bottom:20px; }
+
+/* 3D Model */
+.hero-3d{
+  width:100%;
+  height:650px; /* increase height */
+  position: relative;
+  margin-top:-200px; /* start slightly above */
+}
+spline-viewer { width: 100%; height: 100%; border-radius: 20px; background: transparent; }
+
+/* RIGHT */
+.hero-right{ text-align:right; }
+.hero-right h2{ font-size:70px; color:#fca311; }
+
+/* BACKGROUND BLOBS */
+body::before, body::after{ content:""; position:absolute; width:400px; height:400px; background:radial-gradient(circle,#1a1a1a,transparent); filter:blur(80px); }
+body::before{ top:0; left:0; }
+body::after{ bottom:0; right:0; }
+
+/* SERVICES SECTION */
+.services{ padding:80px 60px; display:flex; justify-content:space-around; gap:30px; flex-wrap:wrap; }
+.service-card{ background:#000; border:1px solid #fca311; border-radius: 15px; width:300px; height:450px; padding:20px; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; position:relative; transition: transform 0.5s, box-shadow 0.5s; }
+.service-card:hover{ transform: translateY(-10px) scale(1.05) rotateX(5deg); box-shadow: 0 10px 30px rgba(252,163,17,0.4); }
+.service-card img{ width:100%; height:250px; object-fit:cover; margin-bottom:15px; filter: grayscale(100%); transition:0.3s; }
+.service-card img:hover{ filter: grayscale(0%); }
+.service-card h3{ margin:10px 0 5px 0; font-size:24px; font-weight:900; }
+.service-card p{ font-size:14px; color:#ddd; text-align:center; margin-bottom:10px; }
+.stars{ display:flex; gap:5px; }
+.stars span{ color:white; font-size:16px; transition: transform 0.3s; }
+.stars span:hover{ transform: scale(1.3); }
+.coming-soon{ position:absolute; top:15px; left:15px; padding:5px 15px; background:rgba(255,255,255,0.15); border-radius:10px; font-weight:bold; font-size:14px; }
+
+/* TESTIMONIALS */
+.testimonials{ padding:80px 60px; background: radial-gradient(circle at center, #111 0%, #050505 100%); text-align:center; }
+.testimonials h2{ margin-bottom:40px; font-size:36px; color:white; }
+.testimonial-boxes{ display:flex; justify-content:space-around; gap:20px; flex-wrap:wrap; }
+.testimonial-box{ background:#000; border-radius:20px; width:300px; padding:25px; display:flex; flex-direction:column; align-items:flex-start; transition: transform 0.5s, box-shadow 0.5s, opacity 1s; opacity:0; }
+.testimonial-box.show{ opacity:1; transform: translateY(0); }
+.testimonial-box img{ width:35px; height:35px; border-radius:50%; margin-right:10px; }
+.testimonial-box .header{ display:flex; align-items:center; margin-bottom:10px; }
+.testimonial-box h4{ color:white; }
+.testimonial-box p{ color:#ddd; font-size:14px; }
+.testimonial-box .stars{ margin-bottom:5px; }
+
+/* CONTACT SECTION */
+.contact{ padding:80px 60px; text-align:center; }
+.contact h2{ color:white; margin-bottom:30px; }
+.contact-links{ display:flex; justify-content:center; gap:20px; flex-wrap:wrap; }
+.contact-links a{
+  width:35px; height:35px; font-size:20px; display:flex; align-items:center; justify-content:center;
+  background:rgba(255,255,255,0.05); border-radius:50%; transition:0.3s;
+}
+.contact-links a:hover{ color:#fca311; background:rgba(252,163,17,0.2); }
+
+/* RESPONSIVE */
+@media(max-width:900px){ .hero{ grid-template-columns:1fr; text-align:center; height:auto; gap:40px; } .hero-right{ text-align:center; } .services, .testimonial-boxes{ flex-direction:column; align-items:center; } }
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">
+    <img src="whatmation logo.png" alt="WhatMation Logo">
+  </div>
+  <ul>
+    <li onclick="scrollToSection('services')">Services</li>
+    <li onclick="scrollToSection('testimonials')">Testimonials</li>
+    <li onclick="scrollToSection('contact')">Contact</li>
+  </ul>
+  <button class="btn" id="talkBtn">Let's Talk</button>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero">
+  <div class="hero-text">
+    <h3>WhatMation</h3>
+    <h1 id="typedHeading"></h1>
+  </div>
+  <div class="hero-3d">
+    <spline-viewer id="splineModel" url="https://prod.spline.design/HH6FLnE0TQ18SnAd/scene.splinecode"></spline-viewer>
+  </div>
+  <div class="hero-right">
+    <p>Boost efficiency up to</p>
+    <h2>60%</h2>
+  </div>
+</section>
+
+<!-- SERVICES SECTION -->
+<section class="services" id="services">
+  <div class="service-card">
+    <img src="https://cdn.botpenguin.com/assets/website/Chatbot_lead_generation_f4888d39e4.webp" alt="Chatbot Icon">
+    <h3>Website Chatbot</h3>
+    <p>AI chatbots for customer support & engagement.</p>
+    <div class="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+  </div>
+  <div class="service-card">
+    <div class="coming-soon">Coming Soon</div>
+    <img src="https://img.freepik.com/free-vector/chatbot-voice-controlled-virtual-assistant-abstract-concept-vector-illustration-talking-virtual-personal-assistant-smartphone-voice-application-ai-voice-controlled-chatbot-abstract-metaphor_335657-2252.jpg" alt="Voice Agent">
+    <h3>Voice Agent</h3>
+    <p>Automated voice assistants for calls & tasks.</p>
+    <div class="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span></div>
+  </div>
+  <div class="service-card">
+    <div class="coming-soon">Coming Soon</div>
+    <img src="https://www.interakt.shop/wp-content/uploads/2025/08/Instagram-Bots-Pros-and-Cons.png" alt="Instagram Automation">
+    <h3>Instagram Automation</h3>
+    <p>Automate posts, engagement & scheduling.</p>
+    <div class="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS SECTION -->
+<section class="testimonials" id="testimonials">
+  <h2>Client Testimonials</h2>
+  <div class="testimonial-boxes">
+    <div class="testimonial-box">
+      <div class="header">
+        <img src="https://tsg.phototool.state.gov/resources/images/img_good_21.jpg" alt="Alexander K.">
+        <h4>Alexander K.</h4>
+      </div>
+      <div class="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <p>"Amazing automation services! My workflow improved drastically."</p>
+    </div>
+    <div class="testimonial-box">
+      <div class="header">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYNMJlXtyHYDQdke6SIn-VpQuKfFTnhLXfQA&s" alt="John">
+        <h4>John D.</h4>
+      </div>
+      <div class="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>☆</span></div>
+      <p>"The AI Chatbot is fantastic. It saved us hours of work every week."</p>
+    </div>
+    <div class="testimonial-box">
+      <div class="header">
+        <img src="https://www.traveldocs.com/cmsimages/0/TravelerServices/photosvc/woman-1-after.jpg" alt="Lisa">
+        <h4>Lisa M.</h4>
+      </div>
+      <div class="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <p>"Highly recommend WhatMation. Innovative and efficient solutions."</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section class="contact" id="contact">
+  <h2>Contact Us</h2>
+  <div class="contact-links">
+    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=whatmation786@gmail.com" target="_blank"><img src="https://img.icons8.com/ios-filled/50/ffffff/gmail.png"/></a>
+    <a href="https://www.instagram.com/whatmation/" target="_blank"><img src="https://img.icons8.com/ios-filled/50/ffffff/instagram-new.png"/></a>
+    <a href="https://www.linkedin.com/in/muhammad-farhan-b5295a397/" target="_blank"><img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png"/></a>
+    <a href="https://www.facebook.com/profile.php?id=61583602719451" target="_blank"><img src="https://img.icons8.com/ios-filled/50/ffffff/facebook-new.png"/></a>
+  </div>
+</section>
+
+<script>
+// Smooth scroll
+function scrollToSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+
+// Typing animation for hero heading
+const typedLines = ["Craft Your", "Intelligence"];
+const typedElement = document.getElementById("typedHeading");
+let line = 0, char = 0;
+function typeLine(){
+  if(line < typedLines.length){
+    if(char < typedLines[line].length){
+      typedElement.innerHTML += typedLines[line].charAt(char);
+      char++;
+      setTimeout(typeLine,100);
+    } else { typedElement.innerHTML += "<br>"; line++; char=0; setTimeout(typeLine,200); }
+  }
+}
+window.onload = typeLine;
+
+// Fade-in testimonials
+const boxes = document.querySelectorAll('.testimonial-box');
+window.addEventListener('scroll',()=>{ boxes.forEach(box=>{ if(box.getBoundingClientRect().top<window.innerHeight-50){ box.classList.add('show'); } }); });
+
+// Let's Talk button scrolls to contact
+document.getElementById('talkBtn').addEventListener('click',()=>{ scrollToSection('contact'); });
+
+// Spline model zoom out animation on load
+const spline = document.getElementById('splineModel');
+spline.addEventListener('load', ()=>{
+  spline.cameraOrbit = '0deg 30deg 120%';
+  setTimeout(()=>{ spline.cameraOrbit = '0deg 15deg 100%'; }, 1500);
+});
+</script>
+</body>
+</html>
